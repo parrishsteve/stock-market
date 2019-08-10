@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:layout_margin="10dp"
+                                                   android:id="@+id/linearLayout">
+
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/llCompany"
+            app:layout_constraintVertical_chainStyle="packed" app:layout_constraintEnd_toStartOf="@+id/ivDelete"
+            app:layout_constraintBottom_toTopOf="@+id/llPrice" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+                android:layout_width="@dimen/symbol_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvSymbol"
+                android:textAppearance="@style/SymbolTitle"
+                android:text="ALB"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvName"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="@style/SymbolTitleLight"
+                android:text="Albemerle"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/llPrice"
+            app:layout_constraintTop_toBottomOf="@+id/llCompany" app:layout_constraintEnd_toStartOf="@+id/ivDelete"
+            app:layout_constraintBottom_toTopOf="@+id/llOpen" app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+                android:layout_width="@dimen/label_width"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Label"
+                android:text="Price"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvPrice"
+                android:textAppearance="@style/CurrentPrice"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/llOpen"
+            app:layout_constraintTop_toBottomOf="@+id/llPrice" app:layout_constraintEnd_toStartOf="@+id/ivDelete"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+                android:layout_width="@dimen/label_width"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Label"
+                android:text="Open Price"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/OpenPrice"
+                android:id="@+id/tvOpen"/>
+    </LinearLayout>
+
+
+    <ImageView android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/ivDelete"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintBottom_toBottomOf="parent"
+               android:contentDescription="@string/item_delete"
+               android:tint="@color/text_light"
+               android:src="@drawable/ic_delete_grey_24dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

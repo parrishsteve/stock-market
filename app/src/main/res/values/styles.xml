@@ -1,0 +1,73 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+
+    <style name="SymbolTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/symbol_large</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="SymbolTitleLight" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Label" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/label</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Exchange" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/label</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="OpenPrice" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/price_last_close</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="CurrentPriceUp" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/price_current_up</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CurrentPriceDown" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/price_current_down</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CurrentPrice" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/price_last_close</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <!--<item name="android:textColorSecondary">@color/egg_87</item>
+        <item name="android:textColorTertiary">@color/egg_54</item>
+        <item name="android:textColorLink">@color/winterBlue</item>
+        <item name="android:textColorHint">@color/egg_54</item>
+        <item name="android:textColorPrimaryInverse">@color/onyx</item>
+        <item name="android:textColorSecondaryInverse">@color/onyx_54</item>
+        <item name="android:textColorTertiaryInverse">@color/onyx_38</item>
+        <item name="android:textColorLinkInverse">@color/lakeBlue</item>
+        <item name="android:textColorHintInverse">@color/onyx_38</item>-->
+
+</resources>
