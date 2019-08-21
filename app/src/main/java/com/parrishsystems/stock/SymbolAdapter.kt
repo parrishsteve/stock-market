@@ -13,44 +13,70 @@ import com.parrishsystems.stock.utils.Formatters
 import kotlinx.coroutines.*
 
 
-class SymbolAdapter(val context: Context, var data: ArrayList<Quote>) : RecyclerView.Adapter<SymbolAdapter.Holder>() {
-
+class SymbolAdapter(val context: Context, var data: ArrayList<Quote>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnClick {
         fun onDelete(view: View, position: Int, symbol: String)
     }
 
+    private val SYMBOL_VIEW = R.layout.symbol_adapter_item
+    private val EMPTY_VIEW = R.layout.symbol_adapter_empty
+
     var onClickListener: OnClick? = null
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        val q = data.get(position)
-        holder.sym.text = q.symbol
-        holder.name.text = q.name
-        holder.price.text = ""
-        q.price?.let {
-            holder.price.text = Formatters.formatCurrency(it)
-        }
-        holder.open.text = ""
-        q.open?.let {
-            holder.open.text = Formatters.formatCurrency(it)
-        }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder.itemViewType == SYMBOL_VIEW) {
+            holder as Holder
+            val q = data.get(position)
+            holder.sym.text = q.symbol
+            holder.name.text = q.name
+            holder.price.text = ""
+            q.price?.let {
+                holder.price.text = Formatters.formatCurrency(it)
+            }
+            holder.open.text = ""
+            q.open?.let {
+                holder.open.text = Formatters.formatCurrency(it)
+            }
 
-        if (q.price != null && q.open != null) {
-            if (q.price >= q.open) {
-                holder.price.setTextAppearance(R.style.CurrentPriceUp)
-            }
-            else {
-                holder.price.setTextAppearance(R.style.CurrentPriceDown)
+            if (q.price != null && q.open != null) {
+                if (q.price >= q.open) {
+                    holder.price.setTextAppearance(R.style.CurrentPriceUp)
+                } else {
+                    holder.price.setTextAppearance(R.style.CurrentPriceDown)
+                }
             }
         }
+        // else do nothing, what we inflate is good enough.
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(context).inflate(R.layout.symbol_adapter_item, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        if (viewType == SYMBOL_VIEW) {
+            return Holder(
+                LayoutInflater.from(context).inflate(
+                    R.layout.symbol_adapter_item,
+                    parent,
+                    false
+                )
+            )
+        }
+        else {
+            return EmptyHolder(
+                LayoutInflater.from(context).inflate(
+                R.layout.symbol_adapter_empty,
+                parent,
+                false
+                )
+            )
+        }
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        if (data.isEmpty()) return 1 else return data.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (data.isEmpty()) return EMPTY_VIEW else return SYMBOL_VIEW
     }
 
     inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
@@ -70,18 +96,28 @@ class SymbolAdapter(val context: Context, var data: ArrayList<Quote>) : Recycler
         }
     }
 
+    inner class EmptyHolder(view: View) : RecyclerView.ViewHolder(view) {
+        // TODO Add stuff here in the future
+    }
+
     fun updateList(newList: List<Quote>) {
-        val diffResult = DiffUtil.calculateDiff(QuoteDiff(data, newList))
-        data.clear();
-        notifyDataSetChanged()
-        data.addAll(newList);
-        diffResult.dispatchUpdatesTo(this)
+        result(newList)
+        // Calling this will execute the diffResult in he background.
+        // This is not needed now but maybe in the future we might need it.
         //backGroundResult(newList)
     }
 
     suspend fun getResult(oldList: List<Quote>, newList: List<Quote>) : DiffUtil.DiffResult {
         val diffResult = DiffUtil.calculateDiff(QuoteDiff(oldList, newList))
         return diffResult
+    }
+
+    fun result(newList: List<Quote>) {
+        val diffResult = DiffUtil.calculateDiff(QuoteDiff(data, newList))
+        data.clear();
+        notifyDataSetChanged()
+        data.addAll(newList);
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun backGroundResult(newList: List<Quote>) {

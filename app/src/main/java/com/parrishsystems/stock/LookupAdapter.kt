@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.parrishsystems.stock.model.LookupSymbol
 import com.parrishsystems.stock.utils.Formatters
-import java.util.*
 import kotlin.collections.ArrayList
 
 class LookupAdapter (val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -71,9 +70,7 @@ class LookupAdapter (val context: Context) : RecyclerView.Adapter<RecyclerView.V
             }
 
         }
-        else {
-
-        }
+        // Otherwise just leave the view alone.
     }
 
     inner class KeywordHolder(view: View): RecyclerView.ViewHolder(view) {

@@ -20,8 +20,6 @@ import com.parrishsystems.stock.viewmodel.LookupViewModel
 
 class LookupFragment : Fragment() {
 
-    private val KEYWORD_LENGTH_TO_START_SEARCH = 1
-
     companion object {
         fun newInstance() = LookupFragment()
     }
@@ -36,22 +34,18 @@ class LookupFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.lookup_fragment, container, false)
         keyword = view.findViewById(R.id.etKeyword)
-        keyword.setOnEditorActionListener { v, actionId, event ->
+        keyword.setOnEditorActionListener { _, actionId, _ ->
+            var ret = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val len = keyword.text.toString().length
-                if (len != 0 && len <= KEYWORD_LENGTH_TO_START_SEARCH) {
-                    viewModel.search(keyword.text.toString().trim())
-                }
-                true
+                viewModel.search(keyword.text.toString().trim(), false)
+                ret = true
             }
-            false
+            ret
         }
 
         keyword.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString().length > KEYWORD_LENGTH_TO_START_SEARCH) {
-                    viewModel.search(keyword.text.toString().trim())
-                }
+                viewModel.search(keyword.text.toString().trim())
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
@@ -93,11 +87,4 @@ class LookupFragment : Fragment() {
 
         return view
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        //viewModel = ViewModelProviders.of(this).get(LookupViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }

@@ -18,5 +18,7 @@
     <string name="lookup_hint">Enter Symbol To Search</string>
     <string name="search_more">MORE</string>
 
+    <string name="empty_symbols">No symbols, add some!</string>
+
 
 </resources>

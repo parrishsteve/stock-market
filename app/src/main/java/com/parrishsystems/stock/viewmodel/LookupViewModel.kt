@@ -1,6 +1,7 @@
 package com.parrishsystems.stock.viewmodel
 
 import android.app.Application
+import android.os.Handler
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.parrishsystems.stock.model.LookupRoot
@@ -10,6 +11,12 @@ import com.parrishsystems.stock.repo.rest_api.LookupService
 
 class LookupViewModel(application: Application) : AndroidViewModel(application) {
     private val searchData = MutableLiveData<List<LookupSymbol>>()
+
+    // These values are used to throttle symbol search requests.  Typically
+    // the search routine is called by the view for every keystoke but we want
+    // to wait and collect a few chars before we fire the request.
+    private val handler: Handler = Handler()
+    private val TIME_TO_WAIT_FOR_SEARCH_INPUT_MS = 1500L
 
     val search: LiveData<List<LookupSymbol>> = Transformations.map(searchData) {
         it
@@ -45,14 +52,35 @@ class LookupViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun search(term: String) {
-        pageNum = 0
-        searchResults.clear()
+    var searchRunnable = Runnable {
         val service = LookupService()
-        service.lookup(term, pageNum + 1, networkCallback)
+        service.lookup(searchTerm, pageNum + 1, networkCallback)
+    }
+
+    /**
+     * Will search for symbols. If the throttle is false then the requet is sent right away
+     * Otherwise the request will be sent 1500ms after the last time this routine was called.
+     */
+    fun search(term: String, throttle: Boolean = true) {
+        handler.removeCallbacks(searchRunnable)
+        pageNum = 0
         searchTerm = term
-        moreData.value = false
-        searchData.value = searchResults.toList()
+        if (!term.isNullOrBlank()) {
+            searchResults.clear()
+            moreData.value = false
+            searchData.value = searchResults.toList()
+            if (throttle) {
+                handler.postDelayed(searchRunnable, TIME_TO_WAIT_FOR_SEARCH_INPUT_MS)
+            } else {
+                handler.post(searchRunnable)
+            }
+        }
+    }
+
+    fun cancelSearch() {
+        handler.removeCallbacks(searchRunnable)
+        pageNum = 0
+        searchTerm = ""
     }
 
     fun searchMore() {

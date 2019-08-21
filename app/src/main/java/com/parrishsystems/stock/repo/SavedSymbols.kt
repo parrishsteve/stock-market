@@ -1,7 +1,6 @@
 package com.parrishsystems.stock.repo
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.JsonIOException
@@ -20,11 +19,7 @@ class SavedSymbols private constructor(val context: Application) {
 
     init {
         sharedPref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
-        //symbols = Symbols() //loadSymbols()
         symbols = loadSymbols()
-        //symbols.symbols.add("MSFT")
-        //symbols.symbols.add("ALB")
-        //symbols.symbols.add("AMZN")
     }
 
     companion object {

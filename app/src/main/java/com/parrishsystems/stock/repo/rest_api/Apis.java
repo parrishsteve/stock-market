@@ -21,6 +21,7 @@ public interface Apis {
             @Query("page") int page,  // 1 based
             @Query("api_token") String apiKey);
 
+    // API example...
     //stock_search?search_term=DE&search_by=symbol&stock_exchange=NASDAQ,NYSE&sort_by=symbol&api_token=1Bc1bZ6lGjMfjUbX89gbSar18kkllnBgpjFc8zmQObR4bD2VzjCbfMDbwxpp
 
 }

@@ -35,8 +35,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            //    .setAction("Action", null).show()
             val intent = Intent(this, LookupActivity::class.java)
             startActivityForResult(intent, LookupActivity.REQUEST_CODE)
         }
