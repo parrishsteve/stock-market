@@ -20,6 +20,8 @@ class SavedSymbols private constructor(val context: Application) {
     init {
         sharedPref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         symbols = loadSymbols()
+        // Let's add indexes
+        symbols.symbols.addAll(getIndexes())
     }
 
     companion object {
@@ -32,6 +34,14 @@ class SavedSymbols private constructor(val context: Application) {
                 INSTANCE = SavedSymbols(context)
             }
         }
+    }
+
+    private fun getIndexes(): MutableList<String> {
+        val indexes = mutableListOf<String>()
+        indexes.add("^DJI")
+        indexes.add("^IXIC")
+        indexes.add("^GSPC")
+        return indexes
     }
 
 

@@ -31,6 +31,8 @@ class SymbolAdapter(val context: Context, var data: ArrayList<SymbolViewModel.Pr
             holder.name.text = q.name
             holder.price.text = q.price
             holder.open.text = q.open
+            holder.dayLow.text = q.low
+            holder.dayHigh.text = q.high
 
             if (q.price != null && q.open != null) {
                 if (q.price >= q.open) {
@@ -77,6 +79,8 @@ class SymbolAdapter(val context: Context, var data: ArrayList<SymbolViewModel.Pr
         val name = view.findViewById<TextView>(R.id.tvName)
         val price = view.findViewById<TextView>(R.id.tvPrice)
         val open = view.findViewById<TextView>(R.id.tvOpen)
+        val dayLow = view.findViewById<TextView>(R.id.tvDayLow)
+        val dayHigh = view.findViewById<TextView>(R.id.tvDayHigh)
         val delete = view.findViewById<ImageView>(R.id.ivDelete)
 
         init {

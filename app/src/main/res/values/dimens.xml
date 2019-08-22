@@ -7,5 +7,5 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="symbol_width">60dp</dimen>
-    <dimen name="label_width">100dp</dimen>
+    <dimen name="label_width">80dp</dimen>
 </resources>

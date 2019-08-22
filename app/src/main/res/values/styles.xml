@@ -59,6 +59,16 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="DayLowPrice" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DayHighPrice" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/label</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 
     <!--<item name="android:textColorSecondary">@color/egg_87</item>
         <item name="android:textColorTertiary">@color/egg_54</item>

@@ -23,10 +23,11 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
     val quotes: LiveData<List<PriceQuote>> = Transformations.map(quoteData) {
         // Prep the data for the view.
         it.map {i ->
-            PriceQuote(i.symbol!!, i.name!!, Formatters.formatCurrency(i.price!!), Formatters.formatCurrency(i.open!!))
+            PriceQuote(i.symbol!!, i.name!!,
+                Formatters.formatCurrency(i.price!!), Formatters.formatCurrency(i.open!!),
+                Formatters.formatCurrency(i.low!!), Formatters.formatCurrency(i.high!!))
         }
     }
-
 
     fun initValues(symbols: List<String> ): List<Quote> {
         val ret = symbols.map { Quote(it) }
@@ -86,5 +87,7 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
         val symbol: String,
         val name: String,
         val price: String,
-        val open: String)
+        val open: String,
+        val low: String,
+        val high: String)
 }
