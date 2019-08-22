@@ -8,24 +8,26 @@ import com.parrishsystems.stock.model.LookupRoot
 import com.parrishsystems.stock.model.LookupSymbol
 import com.parrishsystems.stock.repo.rest_api.ApiCallback
 import com.parrishsystems.stock.repo.rest_api.LookupService
+import com.parrishsystems.stock.utils.Formatters
 
 class LookupViewModel(application: Application) : AndroidViewModel(application) {
-    private val searchData = MutableLiveData<List<LookupSymbol>>()
-
     // These values are used to throttle symbol search requests.  Typically
     // the search routine is called by the view for every keystoke but we want
     // to wait and collect a few chars before we fire the request.
     private val handler: Handler = Handler()
-    private val TIME_TO_WAIT_FOR_SEARCH_INPUT_MS = 1500L
+    private val TIME_TO_WAIT_FOR_SEARCH_INPUT_MS = 1000L
 
-    val search: LiveData<List<LookupSymbol>> = Transformations.map(searchData) {
-        it
+    // The data that the view will observe on
+    private val searchData = MutableLiveData<List<LookupSymbol>>()
+    val search: LiveData<List<Symbol>> = Transformations.map(searchData) {
+        it.map {i ->
+            // Prep the data for the view.
+            Symbol(i.symbol!!, i.name!!, i.stockExchange!!, Formatters.formatCurrency(i.price!!))
+        }
     }
 
-    private val moreData = MutableLiveData<Boolean>()
-    val isMore: LiveData<Boolean> = Transformations.map(moreData) {
-        it
-    }
+    // View will listen to this to see if it should include the option to requet more data.
+    val moreData = MutableLiveData<Boolean>()
 
     var pageNum: Int = 0
     var searchTerm: String = ""
@@ -87,4 +89,12 @@ class LookupViewModel(application: Application) : AndroidViewModel(application) 
         val service = LookupService()
         service.lookup(searchTerm, pageNum + 1, networkCallback)
     }
+
+    /**
+     * This is what is presented to the view.
+     */
+    data class Symbol(val symbol: String,
+               val name: String,
+               val stockExchange: String,
+               val price: String)
 }

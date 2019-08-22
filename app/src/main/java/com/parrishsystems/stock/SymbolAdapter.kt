@@ -8,12 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.parrishsystems.stock.model.Quote
-import com.parrishsystems.stock.utils.Formatters
+import com.parrishsystems.stock.viewmodel.SymbolViewModel
 import kotlinx.coroutines.*
 
 
-class SymbolAdapter(val context: Context, var data: ArrayList<Quote>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SymbolAdapter(val context: Context, var data: ArrayList<SymbolViewModel.PriceQuote>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnClick {
         fun onDelete(view: View, position: Int, symbol: String)
@@ -30,14 +29,8 @@ class SymbolAdapter(val context: Context, var data: ArrayList<Quote>) : Recycler
             val q = data.get(position)
             holder.sym.text = q.symbol
             holder.name.text = q.name
-            holder.price.text = ""
-            q.price?.let {
-                holder.price.text = Formatters.formatCurrency(it)
-            }
-            holder.open.text = ""
-            q.open?.let {
-                holder.open.text = Formatters.formatCurrency(it)
-            }
+            holder.price.text = q.price
+            holder.open.text = q.open
 
             if (q.price != null && q.open != null) {
                 if (q.price >= q.open) {
@@ -97,22 +90,22 @@ class SymbolAdapter(val context: Context, var data: ArrayList<Quote>) : Recycler
     }
 
     inner class EmptyHolder(view: View) : RecyclerView.ViewHolder(view) {
-        // TODO Add stuff here in the future
+        // TODO Add stuff here in the future if the UX changes
     }
 
-    fun updateList(newList: List<Quote>) {
+    fun updateList(newList: List<SymbolViewModel.PriceQuote>) {
         result(newList)
         // Calling this will execute the diffResult in he background.
         // This is not needed now but maybe in the future we might need it.
         //backGroundResult(newList)
     }
 
-    suspend fun getResult(oldList: List<Quote>, newList: List<Quote>) : DiffUtil.DiffResult {
+    suspend fun getResult(oldList: List<SymbolViewModel.PriceQuote>, newList: List<SymbolViewModel.PriceQuote>) : DiffUtil.DiffResult {
         val diffResult = DiffUtil.calculateDiff(QuoteDiff(oldList, newList))
         return diffResult
     }
 
-    fun result(newList: List<Quote>) {
+    fun result(newList: List<SymbolViewModel.PriceQuote>) {
         val diffResult = DiffUtil.calculateDiff(QuoteDiff(data, newList))
         data.clear();
         notifyDataSetChanged()
@@ -120,7 +113,7 @@ class SymbolAdapter(val context: Context, var data: ArrayList<Quote>) : Recycler
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun backGroundResult(newList: List<Quote>) {
+    fun backGroundResult(newList: List<SymbolViewModel.PriceQuote>) {
         val uiScope = CoroutineScope(Dispatchers.Main)
         val bgScope = CoroutineScope(Dispatchers.IO)
         uiScope.launch {
@@ -135,7 +128,7 @@ class SymbolAdapter(val context: Context, var data: ArrayList<Quote>) : Recycler
         }
     }
 
-    class QuoteDiff(val oldList: List<Quote>, val newList: List<Quote>): DiffUtil.Callback() {
+    class QuoteDiff(val oldList: List<SymbolViewModel.PriceQuote>, val newList: List<SymbolViewModel.PriceQuote>): DiffUtil.Callback() {
 
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
@@ -154,5 +147,4 @@ class SymbolAdapter(val context: Context, var data: ArrayList<Quote>) : Recycler
             return oldList.get(oldItemPosition).price == newList.get(newItemPosition).price
         }
     }
-
 }

@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.parrishsystems.stock.model.LookupSymbol
 import com.parrishsystems.stock.viewmodel.LookupViewModel
 
 class LookupFragment : Fragment() {
@@ -65,7 +64,7 @@ class LookupFragment : Fragment() {
                 viewModel.searchMore()
             }
 
-            override fun onSelect(symbol: LookupSymbol) {
+            override fun onSelect(symbol: LookupViewModel.Symbol) {
                 val intent = Intent()
                 intent.putExtra(LookupActivity.RESULT_KEY, symbol.symbol)
                 activity!!.setResult(LookupActivity.RESULT_CODE, intent)
@@ -77,11 +76,11 @@ class LookupFragment : Fragment() {
         rvTerms.adapter = adapter
 
         viewModel = ViewModelProviders.of(this).get(LookupViewModel::class.java)
-        viewModel.search.observe(this, Observer<List<LookupSymbol>> {
+        viewModel.search.observe(this, Observer<List<LookupViewModel.Symbol>> {
             adapter.setItems(it)
         })
 
-        viewModel.isMore.observe(this, Observer<Boolean> {
+        viewModel.moreData.observe(this, Observer<Boolean> {
             adapter.moreEnabled = it
         })
 

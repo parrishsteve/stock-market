@@ -8,7 +8,7 @@ import com.parrishsystems.stock.model.QuoteRoot
 import com.parrishsystems.stock.repo.SavedSymbols
 import com.parrishsystems.stock.repo.rest_api.ApiCallback
 import com.parrishsystems.stock.repo.rest_api.QuoteService
-import java.util.*
+import com.parrishsystems.stock.utils.Formatters
 
 class SymbolViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -18,19 +18,23 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
         SavedSymbols.init(application)
     }
 
+    // The views will observe on this data stream
     private val quoteData = MutableLiveData<List<Quote>>()
-    val quotes: LiveData<List<Quote>> = Transformations.map(quoteData) {
-        it
+    val quotes: LiveData<List<PriceQuote>> = Transformations.map(quoteData) {
+        // Prep the data for the view.
+        it.map {i ->
+            PriceQuote(i.symbol!!, i.name!!, Formatters.formatCurrency(i.price!!), Formatters.formatCurrency(i.open!!))
+        }
     }
 
+
     fun initValues(symbols: List<String> ): List<Quote> {
-        val l = mutableListOf<Quote>()
-        for (s in symbols) {
-            val q = Quote(s)
-            quoteMap.put(s, q)
-            l.add(Quote(s))
+        val ret = symbols.map { Quote(it) }
+        // insert the symbol in the hash
+        ret.forEach {
+            quoteMap.put(it.symbol!!, it)
         }
-        return l
+       return ret
     }
 
     fun getSymbols() {
@@ -62,7 +66,7 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
             }
             else {
                 // If the symbol is not in storage then add it.
-                for (q in resp.qoutes) {
+                resp.qoutes.forEach { q ->
                     q.symbol?.let {
                         if (!quoteMap.containsKey(it)) {
                             SavedSymbols.instance.addSymbol(it)
@@ -74,4 +78,13 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
     }
+
+    /**
+     * Views will use this
+     */
+    data class PriceQuote(
+        val symbol: String,
+        val name: String,
+        val price: String,
+        val open: String)
 }

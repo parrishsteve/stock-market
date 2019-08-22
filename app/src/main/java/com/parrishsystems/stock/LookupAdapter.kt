@@ -7,20 +7,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.parrishsystems.stock.model.LookupSymbol
-import com.parrishsystems.stock.utils.Formatters
+import com.parrishsystems.stock.viewmodel.LookupViewModel
 import kotlin.collections.ArrayList
 
 class LookupAdapter (val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnClick {
         fun onMore()
-        fun onSelect(symbol: LookupSymbol)
+        fun onSelect(symbol: LookupViewModel.Symbol)
     }
 
     var onClickListener: OnClick? = null
 
-    private val keywords: ArrayList<LookupSymbol> = arrayListOf()
+    private val keywords: ArrayList<LookupViewModel.Symbol> = arrayListOf()
 
     private val KEYWORD = 0
     private val MORE_FOOTER = 1
@@ -32,7 +31,7 @@ class LookupAdapter (val context: Context) : RecyclerView.Adapter<RecyclerView.V
         }
 
 
-    fun setItems(newList: List<LookupSymbol>) {
+    fun setItems(newList: List<LookupViewModel.Symbol>) {
         val diffResult = DiffUtil.calculateDiff(LookupDiff(keywords, newList))
         keywords.clear()
         notifyDataSetChanged()
@@ -65,10 +64,7 @@ class LookupAdapter (val context: Context) : RecyclerView.Adapter<RecyclerView.V
             holder.sym.text = ls.symbol
             holder.name.text = ls.name
             holder.exchange.text = ls.stockExchange
-            ls.price?.apply {
-                holder.price.text = Formatters.formatCurrency(this)
-            }
-
+            holder.price.text = ls.price
         }
         // Otherwise just leave the view alone.
     }
@@ -94,7 +90,7 @@ class LookupAdapter (val context: Context) : RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    class LookupDiff(val oldList: List<LookupSymbol>, val newList: List<LookupSymbol>): DiffUtil.Callback() {
+    class LookupDiff(val oldList: List<LookupViewModel.Symbol>, val newList: List<LookupViewModel.Symbol>): DiffUtil.Callback() {
 
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

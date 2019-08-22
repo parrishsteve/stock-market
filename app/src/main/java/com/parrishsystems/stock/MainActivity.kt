@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.parrishsystems.stock.model.Quote
 import com.parrishsystems.stock.viewmodel.SymbolViewModel
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
-        adapter = SymbolAdapter(baseContext, ArrayList<Quote>())
+        adapter = SymbolAdapter(baseContext, ArrayList<SymbolViewModel.PriceQuote>())
         adapter.onClickListener = object : SymbolAdapter.OnClick {
             override fun onDelete(view: View, position: Int, symbol: String) {
                 vm.deleteSymbol(symbol)
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         rvSymbols.adapter = adapter
 
         vm = ViewModelProviders.of(this).get(SymbolViewModel::class.java)
-        vm.quotes.observe(this, Observer<List<Quote>> {
+        vm.quotes.observe(this, Observer<List<SymbolViewModel.PriceQuote>> {
             adapter.updateList(it)
         })
 
