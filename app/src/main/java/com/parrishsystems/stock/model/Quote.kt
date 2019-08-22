@@ -2,7 +2,7 @@ package com.parrishsystems.stock.model
 
 import com.google.gson.annotations.SerializedName
 
-open class Quote (
+data class Quote (
     @SerializedName("symbol") val symbol: String? = "",
     @SerializedName("price_open") val open: Float? = 0.00f,
     @SerializedName("day_high") val high: Float? = 0.00f,

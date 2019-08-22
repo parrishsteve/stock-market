@@ -2,7 +2,7 @@ package com.parrishsystems.stock.model
 
 import com.google.gson.annotations.SerializedName
 
-class LookupRoot(
+data class LookupRoot(
     @SerializedName("total_returned")
     val totalReturned: Int? = 0,
 

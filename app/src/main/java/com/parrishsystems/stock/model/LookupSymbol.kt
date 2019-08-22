@@ -2,7 +2,7 @@ package com.parrishsystems.stock.model
 
 import com.google.gson.annotations.SerializedName
 
-class LookupSymbol (
+data class LookupSymbol (
     @SerializedName("symbol")
     val symbol: String? = "",
 
