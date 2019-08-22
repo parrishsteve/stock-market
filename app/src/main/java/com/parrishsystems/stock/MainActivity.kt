@@ -67,9 +67,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         vm.quotes.observe(this, Observer<List<SymbolViewModel.PriceQuote>> {
             adapter.updateList(it)
         })
+    }
 
+    override fun onStart() {
+        super.onStart()
         vm.getSymbols()
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -36,9 +36,15 @@ class SymbolAdapter(val context: Context, var data: ArrayList<SymbolViewModel.Pr
 
             if (q.price != null && q.open != null) {
                 if (q.price >= q.open) {
-                    holder.price.setTextAppearance(R.style.CurrentPriceUp)
+                    holder.price.apply {
+                        setTextAppearance(R.style.CurrentPriceUp)
+                        setBackgroundResource(R.drawable.price_background_up)
+                    }
                 } else {
-                    holder.price.setTextAppearance(R.style.CurrentPriceDown)
+                    holder.price.apply {
+                        setTextAppearance(R.style.CurrentPriceDown)
+                        setBackgroundResource(R.drawable.price_background_down)
+                    }
                 }
             }
         }
