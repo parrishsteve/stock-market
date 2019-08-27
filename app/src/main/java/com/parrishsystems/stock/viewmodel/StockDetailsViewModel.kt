@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.parrishsystems.stock.model.Intraday
 import com.parrishsystems.stock.model.IntradayRoot
 import com.parrishsystems.stock.model.Quote
 import com.parrishsystems.stock.model.QuoteRoot
@@ -26,29 +27,18 @@ class StockDetailsViewModel(private val repo: SavedSymbols) : ViewModel() {
         CompanyView(it)
     }
 
+    // A data path for errors the view should show.
     val errorMsg = MutableLiveData<String>()
 
     val intradayData: LiveData<List<IntradayView>> = Transformations.map(intraday) {
-
-        // Prep for the view
-        val list = mutableListOf<IntradayView>()
-        val values = it.intradayData.keySet().sorted()
-        values.forEach { time ->
-            val value = it.getIntraday(time)
-            value?.let { dayData ->
-                list.add(
-                    IntradayView(
-                        dayData.close!!,
-                        time
-                    )
-                )
-            }
+        it.list?.map {
+            IntradayView(it)
         }
-        list
     }
 
-    data class IntradayView(val price: Float, val time: String) {
-
+    data class IntradayView(var day: Intraday) {
+        val price: Float = day.close ?: 0.0f
+        var time: String = day.timeStamp.substringAfter(" ")
     }
 
     data class CompanyView(

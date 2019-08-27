@@ -29,6 +29,7 @@ class LookupViewModel(application: Application) : AndroidViewModel(application) 
     // View will listen to this to see if it should include the option to requet more data.
     val moreData = MutableLiveData<Boolean>()
 
+    // A data path for errors that the view should show.
     val errorMsg = MutableLiveData<String>()
 
     var pageNum: Int = 0

@@ -59,13 +59,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textAppearance="@style/DayHighPrice" />
+            android:textAppearance="@style/DayChangeUp" />
 
         <TextView
             android:id="@+id/tvDayPctChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/DayHighPrice"
+            android:textAppearance="@style/DayChangeUp"
             android:layout_marginStart="10dp"/>
 
     </LinearLayout>
@@ -84,14 +84,14 @@
         <TextView
             android:layout_width="@dimen/label_width"
             android:layout_height="wrap_content"
-            android:text="Day Range"
+            android:text="@string/day_range_label"
             android:textAppearance="@style/Label" />
 
         <TextView
             android:id="@+id/tvDayRange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/DayHighPrice" />
+            android:textAppearance="@style/DayRange" />
 
     </LinearLayout>
 
@@ -109,7 +109,7 @@
         <TextView
             android:layout_width="@dimen/label_width"
             android:layout_height="wrap_content"
-            android:text="Open"
+            android:text="@string/open_label"
             android:textAppearance="@style/Label" />
 
         <TextView

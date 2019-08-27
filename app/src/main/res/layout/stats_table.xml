@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@style/Label"
-            android:text="Open"/>
+            android:text="@string/open_label"/>
 
         <TextView
             android:layout_width="0dp"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@style/Label"
-            android:text="Day's Range"/>
+            android:text="@string/day_range_label"/>
 
         <TextView
             android:layout_width="0dp"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@style/Label"
-            android:text="Volume"/>
+            android:text="@string/volume_label"/>
     </TableRow>
 
     <TableRow
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@style/Label"
-            android:text="Prev Close"/>
+            android:text="@string/previous_close_label"/>
 
         <TextView
             android:layout_width="0dp"
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@style/Label"
-            android:text="52 Week Range"/>
+            android:text="@string/year_range_label"/>
 
         <TextView
             android:layout_width="0dp"
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@style/Label"
-            android:text="Other"/>
+            android:text="@string/volume_avg_label"/>
     </TableRow>
 
     <TableRow

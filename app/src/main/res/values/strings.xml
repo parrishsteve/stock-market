@@ -20,5 +20,13 @@
 
     <string name="empty_symbols">No symbols, add some!</string>
 
+    <string name="day_range_label">Day Range</string>
+    <string name="open_label">Open</string>
+    <string name="volume_label">Volume</string>
+    <string name="volume_avg_label">Volume Avg.</string>
+    <string name="previous_close_label">Prev Close</string>
+    <string name="year_range_label">52 Week Range</string>
+
+    Volume
 
 </resources>

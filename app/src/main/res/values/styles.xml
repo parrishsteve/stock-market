@@ -17,19 +17,18 @@
 
     <style name="SymbolTitle" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/symbol_large</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="SymbolTitleLight" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/text_light</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Label" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/label</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="GraphTheme">
@@ -63,7 +62,7 @@
 
     <style name="OpenPrice" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/price_last_close</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="CurrentPriceUp" parent="TextAppearance.AppCompat.Body1">
@@ -93,14 +92,10 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="DayLowPrice" parent="TextAppearance.AppCompat.Body1">
+    <style name="DayRange" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/text_light</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="DayHighPrice" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">@color/label</item>
-        <item name="android:textSize">16sp</item>
-    </style>
 
 </resources>

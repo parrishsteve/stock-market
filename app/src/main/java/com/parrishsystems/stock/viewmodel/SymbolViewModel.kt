@@ -10,14 +10,11 @@ import com.parrishsystems.stock.repo.rest_api.ApiCallback
 import com.parrishsystems.stock.repo.rest_api.QuoteService
 import com.parrishsystems.stock.utils.Formatters
 
-class SymbolViewModel(application: Application) : AndroidViewModel(application) {
+class SymbolViewModel(val repo: SavedSymbols) : ViewModel() {
 
     val quoteMap = hashMapOf<String, Quote>()
 
-    init {
-        SavedSymbols.init(application)
-    }
-
+    // A data path for errors that the view should show.
     val errorMsg = MutableLiveData<String>()
 
     // The views will observe on this data stream
@@ -39,7 +36,7 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun getSymbols() {
-        val syms = SavedSymbols.instance.getSymbols()
+        val syms = repo.getSymbols()
         val service = QuoteService()
         service.getQuotes(syms, networkCallback)
         quoteData.value = initValues(syms)
@@ -47,7 +44,7 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
 
     fun deleteSymbol(value: String) {
         quoteMap.remove(value)
-        SavedSymbols.instance.deleteSymbol(value)
+        repo.deleteSymbol(value)
         quoteData.value = quoteMap.values.sorted()
     }
 
@@ -57,12 +54,12 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun selectSymbol(symbol: String) {
-        SavedSymbols.instance.selectedSymbol = symbol
+        repo.selectedSymbol = symbol
     }
 
     val networkCallback = object: ApiCallback<QuoteRoot> {
         override fun onError(errMsg: String) {
-            Toast.makeText(application, errMsg, Toast.LENGTH_LONG).show()
+            errorMsg.value = errMsg
         }
 
         override fun onComplete(desc: String, resp: QuoteRoot) {
@@ -74,7 +71,7 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
                 resp.qoutes.forEach { q ->
                     q.symbol?.let {
                         if (!quoteMap.containsKey(it)) {
-                            SavedSymbols.instance.addSymbol(it)
+                            repo.addSymbol(it)
                         }
                         quoteMap.put(it, q)
                     }
@@ -90,10 +87,10 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
     data class PriceQuote(val q: Quote) {
         val symbol: String = q.symbol ?: ""
         val name: String = q.name ?: ""
-        val price: String = Formatters.formatCurrency(q.price!!)
-        val open: String = Formatters.formatCurrency(q.open!!)
-        val low: String = Formatters.formatCurrency(q.low!!)
-        val high: String = Formatters.formatCurrency(q.high!!)
+        val price: String = q.price.toString()
+        val open: String = q.open.toString()
+        val low: String = q.low.toString()
+        val high: String = q.high.toString()
         val dayChange: String = q.dayChange ?: ""
         val dayChangePct: String = Formatters.formatPercentage(q.changePercentage!!)
         val isPriceUp: Boolean

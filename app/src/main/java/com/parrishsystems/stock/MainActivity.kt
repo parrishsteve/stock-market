@@ -18,7 +18,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.parrishsystems.stock.repo.SavedSymbols
 import com.parrishsystems.stock.viewmodel.SymbolViewModel
+import com.parrishsystems.stock.viewmodel.SymbolViewModelFactory
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -48,6 +50,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navView.setNavigationItemSelectedListener(this)
 
+        SavedSymbols.init(application)
+
         val layoutManager = LinearLayoutManager(this)
         rvSymbols = findViewById<RecyclerView>(R.id.rvSymbols)
         rvSymbols.layoutManager = layoutManager
@@ -70,7 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         rvSymbols.adapter = adapter
 
-        vm = ViewModelProviders.of(this).get(SymbolViewModel::class.java)
+        vm = ViewModelProviders.of(this, SymbolViewModelFactory(SavedSymbols.instance)).get(SymbolViewModel::class.java)
         vm.quotes.observe(this, Observer<List<SymbolViewModel.PriceQuote>> {
             adapter.updateList(it)
         })

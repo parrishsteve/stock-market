@@ -9,7 +9,7 @@ import retrofit2.Response
 class IntradayService() {
     private lateinit var _symbol: String
 
-    protected val INTRADAY_URL = "https://intraday.worldtradingdata.com/api/v1/"
+    protected val INTRADAY_URL = BuildConfig.INTRADAY_URL
     protected val API_KEY = BuildConfig.STOCK_API_KEY
     private val client = RetrofitClient(INTRADAY_URL, BuildConfig.DEBUG).create()
     protected val service = client.create(Apis::class.java)
