@@ -1,6 +1,7 @@
 package com.parrishsystems.stock.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Quote (
     @SerializedName("symbol") val symbol: String? = "",
@@ -18,7 +19,7 @@ data class Quote (
     @SerializedName("volume") val volume: String? = "",
     @SerializedName("volume_avg") val volumeAvg: String? = "",
     @SerializedName("shares") val shares: String? = "",
-    @SerializedName("name") val name: String? = ""): Comparable<Quote>
+    @SerializedName("name") val name: String? = ""): Comparable<Quote>, Serializable
 {
     override fun compareTo(other: Quote) = compareValuesBy(this, other,
         { it.symbol }

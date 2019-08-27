@@ -8,4 +8,9 @@ object Formatters {
         val defaultFormat = NumberFormat.getCurrencyInstance()
         return defaultFormat.format(value)
     }
+
+    fun formatPercentage(value: String): String {
+        if (!value.contains('-')) return "+$value%"
+        return "$value%"
+    }
 }

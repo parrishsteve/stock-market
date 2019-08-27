@@ -12,7 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/llPrice"
         app:layout_constraintEnd_toStartOf="@+id/ivDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -41,16 +40,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/llOpen"
-        app:layout_constraintEnd_toStartOf="@+id/llDayLow"
+        app:layout_constraintBottom_toTopOf="@+id/llDayRange"
+        app:layout_constraintEnd_toStartOf="@+id/ivDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llCompany">
-
-        <TextView
-            android:layout_width="@dimen/label_width"
-            android:layout_height="wrap_content"
-            android:text="Price"
-            android:textAppearance="@style/Label" />
 
         <TextView
             android:id="@+id/tvPrice"
@@ -61,31 +54,47 @@
             android:padding="2dp"
             android:textAppearance="@style/CurrentPrice" />
 
+        <TextView
+            android:id="@+id/tvDayChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textAppearance="@style/DayHighPrice" />
+
+        <TextView
+            android:id="@+id/tvDayPctChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/DayHighPrice"
+            android:layout_marginStart="10dp"/>
+
     </LinearLayout>
 
+
     <LinearLayout
-        android:id="@+id/llDayLow"
+        android:id="@+id/llDayRange"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/llOpen"
         app:layout_constraintEnd_toStartOf="@+id/ivDelete"
-        app:layout_constraintStart_toEndOf="@+id/llPrice"
-        app:layout_constraintTop_toBottomOf="@+id/llCompany">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llPrice">
 
         <TextView
             android:layout_width="@dimen/label_width"
             android:layout_height="wrap_content"
-            android:text="Day Low"
+            android:text="Day Range"
             android:textAppearance="@style/Label" />
 
         <TextView
-            android:id="@+id/tvDayLow"
+            android:id="@+id/tvDayRange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/DayLowPrice" />
+            android:textAppearance="@style/DayHighPrice" />
 
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/llOpen"
@@ -93,14 +102,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/llDayHigh"
+        app:layout_constraintEnd_toStartOf="@+id/ivDelete"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llPrice">
+        app:layout_constraintTop_toBottomOf="@+id/llDayRange">
 
         <TextView
             android:layout_width="@dimen/label_width"
             android:layout_height="wrap_content"
-            android:text="Open Price"
+            android:text="Open"
             android:textAppearance="@style/Label" />
 
         <TextView
@@ -108,29 +117,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/OpenPrice" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llDayHigh"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ivDelete"
-        app:layout_constraintStart_toEndOf="@+id/llOpen"
-        app:layout_constraintTop_toBottomOf="@+id/llPrice">
-
-        <TextView
-            android:layout_width="@dimen/label_width"
-            android:layout_height="wrap_content"
-            android:text="Day High"
-            android:textAppearance="@style/Label" />
-
-        <TextView
-            android:id="@+id/tvDayHigh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/DayHighPrice" />
     </LinearLayout>
 
 

@@ -44,6 +44,7 @@ class SavedSymbols private constructor(val context: Application) {
         return indexes
     }
 
+    var selectedSymbol: String = ""
 
     fun getSymbols(): List<String> {
         return symbols.symbols

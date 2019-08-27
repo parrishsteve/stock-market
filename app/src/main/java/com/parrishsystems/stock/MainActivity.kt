@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -56,6 +57,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         adapter = SymbolAdapter(baseContext, ArrayList<SymbolViewModel.PriceQuote>())
         adapter.onClickListener = object : SymbolAdapter.OnClick {
+            override fun onClick(view: View, position: Int, symbol: SymbolViewModel.PriceQuote) {
+                vm.selectSymbol(symbol.symbol)
+                val intent = Intent(applicationContext, StockDetailsActivity::class.java)
+                startActivity(intent)
+            }
+
             override fun onDelete(view: View, position: Int, symbol: String) {
                 vm.deleteSymbol(symbol)
             }
@@ -66,6 +73,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         vm = ViewModelProviders.of(this).get(SymbolViewModel::class.java)
         vm.quotes.observe(this, Observer<List<SymbolViewModel.PriceQuote>> {
             adapter.updateList(it)
+        })
+
+        vm.errorMsg.observe(this, Observer<String> {
+            Toast.makeText(application, it, Toast.LENGTH_LONG).show()
         })
     }
 

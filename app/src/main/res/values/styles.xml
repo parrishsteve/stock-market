@@ -32,6 +32,30 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="GraphTheme">
+        <item name="android:background">@color/off_white</item>
+        <item name="backgroundColor">@color/off_white</item>
+        <item name="graphBackgroundColor">@color/off_white</item>
+        <item name="gridBackgroundColor">@color/ap_white</item>
+        <item name="domainLineColor">@color/ap_gray</item>
+        <item name="rangeLineColor">@color/ap_gray</item>
+        <item name="lineLabelTextColorTop">@color/ap_charcoal</item>
+        <item name="lineLabelTextColorBottom">@color/ap_charcoal</item>
+        <item name="lineLabelTextColorLeft">@color/ap_charcoal</item>
+        <item name="lineLabelTextColorRight">@color/ap_charcoal</item>
+        <item name="domainOriginLineColor">@color/ap_charcoal</item>
+        <item name="rangeOriginLineColor">@color/ap_charcoal</item>
+        <item name="titleTextColor">@color/ap_black</item>
+        <item name="domainTitleTextColor">@color/ap_black</item>
+        <item name="rangeTitleTextColor">@color/ap_black</item>
+        <item name="legendTextColor">@color/ap_black</item>
+    </style>
+
+    <style name="Value" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="Exchange" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/label</item>
         <item name="android:textSize">16sp</item>
@@ -54,6 +78,16 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="DayChangeUp" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/price_current_up</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DayChangeDown" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/price_current_down</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="CurrentPrice" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/price_last_close</item>
         <item name="android:textSize">16sp</item>
@@ -68,16 +102,5 @@
         <item name="android:textColor">@color/label</item>
         <item name="android:textSize">16sp</item>
     </style>
-
-
-    <!--<item name="android:textColorSecondary">@color/egg_87</item>
-        <item name="android:textColorTertiary">@color/egg_54</item>
-        <item name="android:textColorLink">@color/winterBlue</item>
-        <item name="android:textColorHint">@color/egg_54</item>
-        <item name="android:textColorPrimaryInverse">@color/onyx</item>
-        <item name="android:textColorSecondaryInverse">@color/onyx_54</item>
-        <item name="android:textColorTertiaryInverse">@color/onyx_38</item>
-        <item name="android:textColorLinkInverse">@color/lakeBlue</item>
-        <item name="android:textColorHintInverse">@color/onyx_38</item>-->
 
 </resources>

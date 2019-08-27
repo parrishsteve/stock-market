@@ -16,6 +16,7 @@ class SymbolAdapter(val context: Context, var data: ArrayList<SymbolViewModel.Pr
 
     interface OnClick {
         fun onDelete(view: View, position: Int, symbol: String)
+        fun onClick(view: View, position: Int, symbol: SymbolViewModel.PriceQuote)
     }
 
     private val SYMBOL_VIEW = R.layout.symbol_adapter_item
@@ -31,21 +32,25 @@ class SymbolAdapter(val context: Context, var data: ArrayList<SymbolViewModel.Pr
             holder.name.text = q.name
             holder.price.text = q.price
             holder.open.text = q.open
-            holder.dayLow.text = q.low
-            holder.dayHigh.text = q.high
+            holder.dayRange.text = q.low + " - " + q.high
+            holder.dayChange.text = q.dayChange
+            holder.dayChangePct.text = q.dayChangePct
 
-            if (q.price != null && q.open != null) {
-                if (q.price >= q.open) {
-                    holder.price.apply {
-                        setTextAppearance(R.style.CurrentPriceUp)
-                        setBackgroundResource(R.drawable.price_background_up)
-                    }
-                } else {
-                    holder.price.apply {
-                        setTextAppearance(R.style.CurrentPriceDown)
-                        setBackgroundResource(R.drawable.price_background_down)
-                    }
+            if (q.isPriceUp) {
+                holder.price.apply {
+                    setTextAppearance(R.style.CurrentPriceUp)
+                    setBackgroundResource(R.drawable.price_background_up)
                 }
+                holder.dayChange.setTextAppearance(R.style.DayChangeUp)
+                holder.dayChangePct.setTextAppearance(R.style.DayChangeUp)
+            }
+            else {
+                holder.price.apply {
+                    setTextAppearance(R.style.CurrentPriceDown)
+                    setBackgroundResource(R.drawable.price_background_down)
+                }
+                holder.dayChange.setTextAppearance(R.style.DayChangeDown)
+                holder.dayChangePct.setTextAppearance(R.style.DayChangeDown)
             }
         }
         // else do nothing, what we inflate is good enough.
@@ -85,11 +90,18 @@ class SymbolAdapter(val context: Context, var data: ArrayList<SymbolViewModel.Pr
         val name = view.findViewById<TextView>(R.id.tvName)
         val price = view.findViewById<TextView>(R.id.tvPrice)
         val open = view.findViewById<TextView>(R.id.tvOpen)
-        val dayLow = view.findViewById<TextView>(R.id.tvDayLow)
-        val dayHigh = view.findViewById<TextView>(R.id.tvDayHigh)
+        val dayRange = view.findViewById<TextView>(R.id.tvDayRange)
+        val dayChange = view.findViewById<TextView>(R.id.tvDayChange)
+        val dayChangePct = view.findViewById<TextView>(R.id.tvDayPctChange)
         val delete = view.findViewById<ImageView>(R.id.ivDelete)
 
         init {
+            view.setOnClickListener {
+                val company = data.get(adapterPosition)
+                company?.let {
+                    onClickListener?.onClick(view, adapterPosition, it)
+                }
+            }
             delete.setOnClickListener { view
                 val symbol = data.get(adapterPosition)?.symbol
                 symbol?.let {

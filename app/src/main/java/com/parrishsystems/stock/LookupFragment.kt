@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,6 +83,10 @@ class LookupFragment : Fragment() {
 
         viewModel.moreData.observe(this, Observer<Boolean> {
             adapter.moreEnabled = it
+        })
+
+        viewModel.errorMsg.observe(this, Observer<String> {
+            Toast.makeText(context!!.applicationContext, it, Toast.LENGTH_LONG).show()
         })
 
         return view

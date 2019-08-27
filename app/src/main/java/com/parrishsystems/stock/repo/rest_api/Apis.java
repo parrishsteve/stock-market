@@ -1,5 +1,6 @@
 package com.parrishsystems.stock.repo.rest_api;
 
+import com.parrishsystems.stock.model.IntradayRoot;
 import com.parrishsystems.stock.model.LookupRoot;
 import com.parrishsystems.stock.model.QuoteRoot;
 import retrofit2.Call;
@@ -20,6 +21,16 @@ public interface Apis {
             @Query("sort_by") String sortBy,
             @Query("page") int page,  // 1 based
             @Query("api_token") String apiKey);
+
+    @GET("intraday")
+    Call<IntradayRoot> intraday(
+            @Query("symbol") String symbol,
+            @Query("range") int range,
+            @Query("interval") int interval,
+            @Query("api_token") String apiKey);
+
+
+    //https://intraday.worldtradingdata.com/api/v1/intraday?symbol=AAPL&range=1&interval=60&api_token=1Bc1bZ6lGjMfjUbX89gbSar18kkllnBgpjFc8zmQObR4bD2VzjCbfMDbwxpp
 
     // API example...
     //stock_search?search_term=DE&search_by=symbol&stock_exchange=NASDAQ,NYSE&sort_by=symbol&api_token=1Bc1bZ6lGjMfjUbX89gbSar18kkllnBgpjFc8zmQObR4bD2VzjCbfMDbwxpp

@@ -18,14 +18,14 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
         SavedSymbols.init(application)
     }
 
+    val errorMsg = MutableLiveData<String>()
+
     // The views will observe on this data stream
     private val quoteData = MutableLiveData<List<Quote>>()
     val quotes: LiveData<List<PriceQuote>> = Transformations.map(quoteData) {
         // Prep the data for the view.
         it.map {i ->
-            PriceQuote(i.symbol!!, i.name!!,
-                Formatters.formatCurrency(i.price!!), Formatters.formatCurrency(i.open!!),
-                Formatters.formatCurrency(i.low!!), Formatters.formatCurrency(i.high!!))
+            PriceQuote(i)
         }
     }
 
@@ -56,6 +56,10 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
         service.getQuotes(value, networkCallback)
     }
 
+    fun selectSymbol(symbol: String) {
+        SavedSymbols.instance.selectedSymbol = symbol
+    }
+
     val networkCallback = object: ApiCallback<QuoteRoot> {
         override fun onError(errMsg: String) {
             Toast.makeText(application, errMsg, Toast.LENGTH_LONG).show()
@@ -63,7 +67,7 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
 
         override fun onComplete(desc: String, resp: QuoteRoot) {
             if (resp.qoutes.isEmpty()) {
-                Toast.makeText(application, "Unknown Symbol $desc", Toast.LENGTH_LONG).show()
+                errorMsg.value = "Unknown Symbol $desc"
             }
             else {
                 // If the symbol is not in storage then add it.
@@ -83,11 +87,21 @@ class SymbolViewModel(application: Application) : AndroidViewModel(application) 
     /**
      * Views will use this
      */
-    data class PriceQuote(
-        val symbol: String,
-        val name: String,
-        val price: String,
-        val open: String,
-        val low: String,
-        val high: String)
+    data class PriceQuote(val q: Quote) {
+        val symbol: String = q.symbol ?: ""
+        val name: String = q.name ?: ""
+        val price: String = Formatters.formatCurrency(q.price!!)
+        val open: String = Formatters.formatCurrency(q.open!!)
+        val low: String = Formatters.formatCurrency(q.low!!)
+        val high: String = Formatters.formatCurrency(q.high!!)
+        val dayChange: String = q.dayChange ?: ""
+        val dayChangePct: String = Formatters.formatPercentage(q.changePercentage!!)
+        val isPriceUp: Boolean
+        get() {
+            q.price?.let {
+                if (it >= q.closeYesterday!!) return true
+            }
+            return false
+        }
+    }
 }

@@ -29,6 +29,8 @@ class LookupViewModel(application: Application) : AndroidViewModel(application) 
     // View will listen to this to see if it should include the option to requet more data.
     val moreData = MutableLiveData<Boolean>()
 
+    val errorMsg = MutableLiveData<String>()
+
     var pageNum: Int = 0
     var searchTerm: String = ""
 
@@ -49,7 +51,7 @@ class LookupViewModel(application: Application) : AndroidViewModel(application) 
         }
 
         override fun onError(errMsg: String) {
-            Toast.makeText(application, "Search failed", Toast.LENGTH_LONG).show()
+            errorMsg.value = "Search failed"
             moreData.value = false
         }
     }
