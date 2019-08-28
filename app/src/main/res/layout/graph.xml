@@ -5,13 +5,14 @@
     android:layout_width="match_parent">
 
     <com.androidplot.xy.XYPlot
-        style="@style/APDefacto.Light"
+        style="@style/GraphTheme"
         android:id="@+id/plot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
         ap:lineLabels="left|bottom"
-        ap:lineLabelRotationBottom="-45"/>
+        ap:lineLabelRotationBottom="-45"
+        ap:lineLabelRotationLeft="-45"/>
 
     <!-- ap:title="A Simple XY Plot" ap:domainTitle="domain"
     ap:lineLabels="left|bottom"-->

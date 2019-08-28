@@ -20,7 +20,7 @@ class StockDetailsViewModel(private val repo: SavedSymbols) : ViewModel() {
     private val intraday = MutableLiveData<IntradayRoot>()
 
     var range: Int = 1
-    var interval: Int = 60
+    var interval: Int = 15
 
     val data: LiveData<CompanyView> = Transformations.map(info) {
         // Prep for the view
@@ -30,15 +30,15 @@ class StockDetailsViewModel(private val repo: SavedSymbols) : ViewModel() {
     // A data path for errors the view should show.
     val errorMsg = MutableLiveData<String>()
 
-    val intradayData: LiveData<List<IntradayView>> = Transformations.map(intraday) {
-        it.list?.map {
-            IntradayView(it)
+    val intradayData: LiveData<List<IntradayView>> = Transformations.map(intraday) { root ->
+        root.list.map { dayData ->
+            IntradayView(dayData)
         }
     }
 
     data class IntradayView(var day: Intraday) {
         val price: Float = day.close ?: 0.0f
-        var time: String = day.timeStamp.substringAfter(" ")
+        var time: String = day.timeStamp.substringAfter(" ").dropLast(3)
     }
 
     data class CompanyView(

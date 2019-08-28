@@ -2,7 +2,6 @@ package com.parrishsystems.stock
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.androidplot.Plot
 import com.androidplot.xy.*
 import com.parrishsystems.stock.model.Intraday
 import com.parrishsystems.stock.repo.SavedSymbols
@@ -61,7 +59,7 @@ class StockDetailsFragment : Fragment() {
 
         viewModel.errorMsg.observe(this, Observer<String> {
             Toast.makeText(context!!.applicationContext, it, Toast.LENGTH_LONG).show()
-            plotData(getTestData()) //for testing the graph widget.  Will remove is future.
+            //plotData(getTestData()) //for testing the graph widget.  Will remove is future.
         })
 
         viewModel.getIntradayData()
@@ -116,7 +114,7 @@ class StockDetailsFragment : Fragment() {
 
     private fun plotData(points : List<StockDetailsViewModel.IntradayView>) {
 
-        plot.setDomainStep(StepMode.SUBDIVIDE, points.size.toDouble())
+        //plot.setDomainStep(StepMode.SUBDIVIDE, points.size.toDouble())
         plot.visibility = View.VISIBLE
         plot.legend.isVisible = false
 
@@ -126,11 +124,14 @@ class StockDetailsFragment : Fragment() {
             it.price
         }
 
+        plot.setDomainStep(StepMode.INCREMENT_BY_VAL, 4.0)
+
         val series1: XYSeries  =  SimpleXYSeries(allYPoints, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "")
 
         // create formatters to use for drawing a series using LineAndPointRenderer
         // and configure them from xml:
         var series1Format = LineAndPointFormatter(context, R.xml.line_point_formatter_with_labels)
+        series1Format.pointLabeler =  null
 
         // just for fun, add some smoothing to the lines:
         // see: http://androidplot.com/smooth-curves-and-androidplot/

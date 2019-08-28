@@ -12,17 +12,17 @@ data class IntradayRoot(
     @SerializedName("message")
     val errorMessage: String?)
 {
-    var list: List<Intraday>? = null
-    init {
-        val keys = intradayData.keySet().sorted()
-        list = keys.map {
-            val v = intradayData.get(it)
-            val json = Gson().toJson(v)
-            val intraday = Gson().fromJson(json, Intraday::class.java)
-            intraday.timeStamp = it
-            intraday
-        }
-    }
+    val list: List<Intraday>
+            get() {
+                val keys = intradayData.keySet().sorted()
+                return keys.map { time ->
+                    val v = intradayData.get(time)
+                    val json = Gson().toJson(v)
+                    val intraday = Gson().fromJson(json, Intraday::class.java)
+                    intraday.timeStamp = time
+                    intraday
+                }
+            }
 
     fun isError(): Boolean {
         return !errorMessage.isNullOrEmpty()

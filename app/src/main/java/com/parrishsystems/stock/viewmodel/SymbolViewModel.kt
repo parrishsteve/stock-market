@@ -1,7 +1,5 @@
 package com.parrishsystems.stock.viewmodel
 
-import android.app.Application
-import android.widget.Toast
 import androidx.lifecycle.*
 import com.parrishsystems.stock.model.Quote
 import com.parrishsystems.stock.model.QuoteRoot
@@ -63,16 +61,17 @@ class SymbolViewModel(val repo: SavedSymbols) : ViewModel() {
         }
 
         override fun onComplete(desc: String, resp: QuoteRoot) {
-            if (resp.qoutes.isEmpty()) {
+            if(resp.isError()) {
+                errorMsg.value = resp.errorMessage
+            }
+            else if (resp.qoutes.isNullOrEmpty()) {
                 errorMsg.value = "Unknown Symbol $desc"
             }
             else {
                 // If the symbol is not in storage then add it.
                 resp.qoutes.forEach { q ->
                     q.symbol?.let {
-                        if (!quoteMap.containsKey(it)) {
-                            repo.addSymbol(it)
-                        }
+                        repo.addSymbol(it)
                         quoteMap.put(it, q)
                     }
                 }

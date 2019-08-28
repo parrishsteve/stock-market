@@ -31,23 +31,11 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="GraphTheme">
-        <item name="android:background">@color/off_white</item>
-        <item name="backgroundColor">@color/off_white</item>
-        <item name="graphBackgroundColor">@color/off_white</item>
-        <item name="gridBackgroundColor">@color/ap_white</item>
-        <item name="domainLineColor">@color/ap_gray</item>
-        <item name="rangeLineColor">@color/ap_gray</item>
-        <item name="lineLabelTextColorTop">@color/ap_charcoal</item>
-        <item name="lineLabelTextColorBottom">@color/ap_charcoal</item>
-        <item name="lineLabelTextColorLeft">@color/ap_charcoal</item>
-        <item name="lineLabelTextColorRight">@color/ap_charcoal</item>
-        <item name="domainOriginLineColor">@color/ap_charcoal</item>
-        <item name="rangeOriginLineColor">@color/ap_charcoal</item>
-        <item name="titleTextColor">@color/ap_black</item>
-        <item name="domainTitleTextColor">@color/ap_black</item>
-        <item name="rangeTitleTextColor">@color/ap_black</item>
-        <item name="legendTextColor">@color/ap_black</item>
+    <style name="GraphTheme" parent="APDefacto.Light">
+        <item name="lineLabelTextSizeTop">10sp</item>
+        <item name="lineLabelTextSizeBottom">10sp</item>
+        <item name="lineLabelTextSizeLeft">10sp</item>
+        <item name="lineLabelTextSizeRight">10sp</item>
     </style>
 
     <style name="Value" parent="TextAppearance.AppCompat.Body1">

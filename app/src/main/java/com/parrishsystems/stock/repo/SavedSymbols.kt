@@ -20,8 +20,10 @@ class SavedSymbols private constructor(val context: Application) {
     init {
         sharedPref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         symbols = loadSymbols()
-        // Let's add indexes
-        symbols.symbols.addAll(getIndexes())
+        // Let's add indexes if they are not there
+        getIndexes().forEach { index ->
+            if (!symbols.symbols.contains(index)) symbols.symbols.add(index)
+        }
     }
 
     companion object {
@@ -52,10 +54,12 @@ class SavedSymbols private constructor(val context: Application) {
 
 
     fun addSymbol(value: String) {
-        symbols.symbols.add(value)
-        // Write to shared prefs
-        val data = Gson().toJson(symbols)
-        sharedPref.edit().putString(KEY_NAME, data).apply()
+        if (!symbols.symbols.contains(value)) {
+            symbols.symbols.add(value)
+            // Write to shared prefs
+            val data = Gson().toJson(symbols)
+            sharedPref.edit().putString(KEY_NAME, data).apply()
+        }
     }
 
     fun deleteSymbol(value: String) {
