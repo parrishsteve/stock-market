@@ -8,19 +8,15 @@ import com.parrishsystems.stock.model.Intraday
 import com.parrishsystems.stock.model.IntradayRoot
 import com.parrishsystems.stock.model.Quote
 import com.parrishsystems.stock.model.QuoteRoot
-import com.parrishsystems.stock.repo.SavedSymbols
+import com.parrishsystems.stock.repo.StockMarketRepo
 import com.parrishsystems.stock.repo.rest_api.ApiCallback
-import com.parrishsystems.stock.repo.rest_api.IntradayService
-import com.parrishsystems.stock.repo.rest_api.QuoteService
+import com.parrishsystems.stock.utils.Formatters
 
-class StockDetailsViewModel(private val repo: SavedSymbols) : ViewModel() {
+class StockDetailsViewModel(private val repo: StockMarketRepo) : ViewModel() {
 
     // The views will observe on this data stream
     private val info = MutableLiveData<Quote>()
     private val intraday = MutableLiveData<IntradayRoot>()
-
-    var range: Int = 1
-    var interval: Int = 15
 
     val data: LiveData<CompanyView> = Transformations.map(info) {
         // Prep for the view
@@ -47,17 +43,17 @@ class StockDetailsViewModel(private val repo: SavedSymbols) : ViewModel() {
         val symbol: String = q.symbol ?: ""
         val name: String = q.name ?: ""
         val exchange: String = q.exchange ?: ""
-        val price: String = q.price?.toString() ?: ""
-        val open: String = q.open?.toString() ?: ""
+        val price: String = Formatters.formatStockValue(q.price)
+        val open: String = Formatters.formatStockValue(q.open)
         val dayChange: String = q.dayChange ?: ""
-        val dayChangePct: String = q.changePercentage ?: ""
-        val prevClose: String = q.closeYesterday?.toString() ?: ""
+        val dayChangePct: String = Formatters.formatPercentage(q.changePercentage!!)
+        val prevClose: String = Formatters.formatStockValue(q.closeYesterday)
         val volume: String = q.volume ?: ""
         val other: String = q.volumeAvg ?: ""
-        private val dayLow: String = q.low?.toString() ?: ""
-        private val dayHigh: String = q.high?.toString() ?: ""
-        private val yearLow: String = q.yearLow?.toString() ?: ""
-        private val yearHigh: String = q.yearHigh?.toString() ?: ""
+        private val dayLow: String = Formatters.formatStockValue(q.low)
+        private val dayHigh: String = Formatters.formatStockValue(q.high)
+        private val yearLow: String = Formatters.formatStockValue(q.yearLow)
+        private val yearHigh: String = Formatters.formatStockValue(q.yearHigh)
         val isPriceUp: Boolean
             get() {
                 q.price?.let {
@@ -77,36 +73,26 @@ class StockDetailsViewModel(private val repo: SavedSymbols) : ViewModel() {
     }
 
     fun getData() {
-        QuoteService().getQuotes(repo.selectedSymbol, object : ApiCallback<QuoteRoot> {
+        repo.intraday.getData(repo.selectedSymbol, object : ApiCallback<QuoteRoot> {
             override fun onComplete(desc: String, resp: QuoteRoot) {
-                if (resp.qoutes.isNotEmpty()) {
-                    info.value = resp.qoutes.get(0)
-                }
+                info.value = resp.qoutes.get(0)
             }
 
             override fun onError(errMsg: String) {
                 errorMsg.value = errMsg
             }
-
         })
     }
 
     fun getIntradayData() {
-        IntradayService().intradayData(repo.selectedSymbol, range, interval,
-            object : ApiCallback<IntradayRoot> {
-                override fun onComplete(desc: String, resp: IntradayRoot) {
-                    if (!resp.isError()) {
-                        intraday.value = resp
-                    }
-                    else {
-                        errorMsg.value = resp.errorMessage
-                    }
-                }
+        repo.intraday.getIntradayData(repo.selectedSymbol, object : ApiCallback<IntradayRoot> {
+            override fun onComplete(desc: String, resp: IntradayRoot) {
+                intraday.value = resp
+            }
 
-                override fun onError(errMsg: String) {
-                    errorMsg.value = errMsg
-                }
-            })
+            override fun onError(errMsg: String) {
+                errorMsg.value = errMsg
+            }
+        })
     }
-
 }

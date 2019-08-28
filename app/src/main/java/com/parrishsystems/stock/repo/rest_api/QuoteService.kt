@@ -9,7 +9,7 @@ class QuoteService: BaseService() {
 
     // The API imposes a limit when using their 'free' account.
     // Only 4 symbols can be submitted with for a price quote
-    val MAX_NUM_SYMS_TO_REQUEST = 4
+    val MAX_NUM_SYMS_TO_REQUEST = 19
 
     private lateinit var _symbol: String
 

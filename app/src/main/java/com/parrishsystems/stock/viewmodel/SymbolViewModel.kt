@@ -3,12 +3,11 @@ package com.parrishsystems.stock.viewmodel
 import androidx.lifecycle.*
 import com.parrishsystems.stock.model.Quote
 import com.parrishsystems.stock.model.QuoteRoot
-import com.parrishsystems.stock.repo.SavedSymbols
+import com.parrishsystems.stock.repo.StockMarketRepo
 import com.parrishsystems.stock.repo.rest_api.ApiCallback
-import com.parrishsystems.stock.repo.rest_api.QuoteService
 import com.parrishsystems.stock.utils.Formatters
 
-class SymbolViewModel(val repo: SavedSymbols) : ViewModel() {
+class SymbolViewModel(val repo: StockMarketRepo) : ViewModel() {
 
     val quoteMap = hashMapOf<String, Quote>()
 
@@ -24,60 +23,50 @@ class SymbolViewModel(val repo: SavedSymbols) : ViewModel() {
         }
     }
 
-    fun initValues(symbols: List<String> ): List<Quote> {
-        val ret = symbols.map { Quote(it) }
-        // insert the symbol in the hash
-        ret.forEach {
-            quoteMap.put(it.symbol!!, it)
-        }
-       return ret
-    }
-
-    fun getSymbols() {
-        val syms = repo.getSymbols()
-        val service = QuoteService()
-        service.getQuotes(syms, networkCallback)
-        quoteData.value = initValues(syms)
-    }
-
-    fun deleteSymbol(value: String) {
-        quoteMap.remove(value)
-        repo.deleteSymbol(value)
-        quoteData.value = quoteMap.values.sorted()
-    }
-
-    fun addSymbol(value: String) {
-        val service = QuoteService()
-        service.getQuotes(value, networkCallback)
-    }
-
-    fun selectSymbol(symbol: String) {
-        repo.selectedSymbol = symbol
-    }
-
-    val networkCallback = object: ApiCallback<QuoteRoot> {
+    val dataCallback = object: ApiCallback<QuoteRoot> {
         override fun onError(errMsg: String) {
             errorMsg.value = errMsg
         }
 
         override fun onComplete(desc: String, resp: QuoteRoot) {
-            if(resp.isError()) {
+            if (resp.isError()) {
                 errorMsg.value = resp.errorMessage
-            }
-            else if (resp.qoutes.isNullOrEmpty()) {
+            } else if (resp.qoutes.isNullOrEmpty()) {
                 errorMsg.value = "Unknown Symbol $desc"
-            }
-            else {
+            } else {
                 // If the symbol is not in storage then add it.
                 resp.qoutes.forEach { q ->
-                    q.symbol?.let {
-                        repo.addSymbol(it)
-                        quoteMap.put(it, q)
-                    }
+                    quoteMap.put(q.symbol!!, q)
                 }
-                quoteData.value = quoteMap.values.sorted()
             }
+            quoteData.value = quoteMap.values.sorted()
         }
+    }
+
+    init {
+        repo.symbolData.quoteDataListener = dataCallback
+    }
+
+    fun getSymbols() {
+        repo.symbolData.getAllSymbolData()
+    }
+
+    fun refreshSymbols() {
+        repo.symbolData.refreshAllSymbolData()
+    }
+
+    fun deleteSymbol(value: String) {
+        quoteMap.remove(value)
+        repo.symbolData.deleteSymbol(value)
+        quoteData.value = quoteMap.values.sorted()
+    }
+
+    fun addSymbol(value: String) {
+        repo.symbolData.addSymbol(value)
+    }
+
+    fun selectSymbol(symbol: String) {
+        repo.selectedSymbol = symbol
     }
 
     /**
@@ -86,10 +75,10 @@ class SymbolViewModel(val repo: SavedSymbols) : ViewModel() {
     data class PriceQuote(val q: Quote) {
         val symbol: String = q.symbol ?: ""
         val name: String = q.name ?: ""
-        val price: String = q.price.toString()
-        val open: String = q.open.toString()
-        val low: String = q.low.toString()
-        val high: String = q.high.toString()
+        val price: String = Formatters.formatStockValue(q.price)
+        val open: String = Formatters.formatStockValue(q.open)
+        val low: String = Formatters.formatStockValue(q.low)
+        val high: String = Formatters.formatStockValue(q.high)
         val dayChange: String = q.dayChange ?: ""
         val dayChangePct: String = Formatters.formatPercentage(q.changePercentage!!)
         val isPriceUp: Boolean

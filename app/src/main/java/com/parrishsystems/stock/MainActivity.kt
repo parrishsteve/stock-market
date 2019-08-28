@@ -18,7 +18,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.parrishsystems.stock.repo.SavedSymbols
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.parrishsystems.stock.repo.StockMarketRepo
 import com.parrishsystems.stock.viewmodel.SymbolViewModel
 import com.parrishsystems.stock.viewmodel.SymbolViewModelFactory
 
@@ -28,12 +29,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var vm : SymbolViewModel
     private lateinit var rvSymbols: RecyclerView
     private lateinit var adapter: SymbolAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
@@ -50,7 +53,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navView.setNavigationItemSelectedListener(this)
 
-        SavedSymbols.init(application)
+        // TODO Don't need nav now but I will in future.
+        navView.visibility = View.GONE
+        toggle.setDrawerIndicatorEnabled(false);
+
+        StockMarketRepo.init(application)
 
         val layoutManager = LinearLayoutManager(this)
         rvSymbols = findViewById<RecyclerView>(R.id.rvSymbols)
@@ -74,8 +81,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         rvSymbols.adapter = adapter
 
-        vm = ViewModelProviders.of(this, SymbolViewModelFactory(SavedSymbols.instance)).get(SymbolViewModel::class.java)
+        swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipeContainer);
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = true
+            vm.refreshSymbols()
+        }
+
+      swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+        //swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
+            android.R.color.holo_green_dark,
+            android.R.color.holo_orange_dark,
+            android.R.color.holo_blue_dark)
+
+        vm = ViewModelProviders.of(this, SymbolViewModelFactory(StockMarketRepo.instance)).get(SymbolViewModel::class.java)
         vm.quotes.observe(this, Observer<List<SymbolViewModel.PriceQuote>> {
+            swipeRefreshLayout.isRefreshing = false
             adapter.updateList(it)
         })
 

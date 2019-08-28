@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.androidplot.xy.*
 import com.parrishsystems.stock.model.Intraday
-import com.parrishsystems.stock.repo.SavedSymbols
+import com.parrishsystems.stock.repo.StockMarketRepo
 import com.parrishsystems.stock.viewmodel.StockDetailsViewModel
 import com.parrishsystems.stock.viewmodel.StockDetailsViewModelFactory
 import java.text.FieldPosition
@@ -43,7 +43,7 @@ class StockDetailsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this,
-            StockDetailsViewModelFactory(SavedSymbols.instance)
+            StockDetailsViewModelFactory(StockMarketRepo.instance)
         ).get(StockDetailsViewModel::class.java)
 
         viewModel.data.observe(this, Observer {

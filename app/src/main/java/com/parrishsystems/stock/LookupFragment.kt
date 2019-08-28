@@ -16,6 +16,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.parrishsystems.stock.repo.StockMarketRepo
+import com.parrishsystems.stock.viewmodel.LookupModelViewFactory
 import com.parrishsystems.stock.viewmodel.LookupViewModel
 
 class LookupFragment : Fragment() {
@@ -76,7 +78,7 @@ class LookupFragment : Fragment() {
         }
         rvTerms.adapter = adapter
 
-        viewModel = ViewModelProviders.of(this).get(LookupViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, LookupModelViewFactory(StockMarketRepo.instance)).get(LookupViewModel::class.java)
         viewModel.search.observe(this, Observer<List<LookupViewModel.Symbol>> {
             adapter.setItems(it)
         })

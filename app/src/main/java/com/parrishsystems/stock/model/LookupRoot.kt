@@ -16,7 +16,12 @@ data class LookupRoot(
     val page: Int? = 0,
 
     @SerializedName("data")
-    val symbols : List<LookupSymbol> = mutableListOf())
-{
+    val symbols : List<LookupSymbol> = mutableListOf(),
 
+    @SerializedName("message")
+    val errorMessage : String?)
+{
+    fun isError(): Boolean {
+        return !errorMessage.isNullOrEmpty()
+    }
 }

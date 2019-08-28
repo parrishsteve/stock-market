@@ -1,16 +1,14 @@
 package com.parrishsystems.stock.viewmodel
 
-import android.app.Application
 import android.os.Handler
-import android.widget.Toast
 import androidx.lifecycle.*
 import com.parrishsystems.stock.model.LookupRoot
 import com.parrishsystems.stock.model.LookupSymbol
+import com.parrishsystems.stock.repo.StockMarketRepo
 import com.parrishsystems.stock.repo.rest_api.ApiCallback
-import com.parrishsystems.stock.repo.rest_api.LookupService
 import com.parrishsystems.stock.utils.Formatters
 
-class LookupViewModel(application: Application) : AndroidViewModel(application) {
+class LookupViewModel(private val repo: StockMarketRepo) : ViewModel() {
     // These values are used to throttle symbol search requests.  Typically
     // the search routine is called by the view for every keystoke but we want
     // to wait and collect a few chars before we fire the request.
@@ -52,14 +50,13 @@ class LookupViewModel(application: Application) : AndroidViewModel(application) 
         }
 
         override fun onError(errMsg: String) {
-            errorMsg.value = "Search failed"
+            errorMsg.value = errMsg
             moreData.value = false
         }
     }
 
     var searchRunnable = Runnable {
-        val service = LookupService()
-        service.lookup(searchTerm, pageNum + 1, networkCallback)
+        repo.symbolLookup.lookUp(searchTerm, pageNum + 1, networkCallback)
     }
 
     /**
@@ -82,15 +79,8 @@ class LookupViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun cancelSearch() {
-        handler.removeCallbacks(searchRunnable)
-        pageNum = 0
-        searchTerm = ""
-    }
-
     fun searchMore() {
-        val service = LookupService()
-        service.lookup(searchTerm, pageNum + 1, networkCallback)
+        repo.symbolLookup.lookUp(searchTerm, pageNum + 1, networkCallback)
     }
 
     /**
