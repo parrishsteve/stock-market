@@ -5,3 +5,4 @@ This app uses the RESTful API services at worldtradingdata.com. You can sign up 
 
 ONCE YOU HAVE A KEY YOU NEED TO SET IT IN THE app/gradle.properties file and rebuild.
 
+![Screenshot](search.png)
