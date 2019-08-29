@@ -1,5 +1,5 @@
 # stock-market
-An app to search for stock market symbols and get real-time stock market data
+A reliable app with no ads and real-time data. An app to search for stock market symbols and get real-time stock market data
 
 This app uses the RESTful API services at worldtradingdata.com. You can sign up for a free account (or a paid account) and they will give you a key.
 
