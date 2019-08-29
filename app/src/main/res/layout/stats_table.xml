@@ -54,8 +54,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="@style/Value"
-            android:text="1111.11"/>
+            android:textAppearance="@style/Value" />
 
         <TextView
             android:id="@+id/tvDayRange"
@@ -63,8 +62,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="@style/Value"
-            android:text="22222.22 - 33333.22"/>
+            android:textAppearance="@style/Value" />
 
         <TextView
             android:id="@+id/tvVolume"
@@ -72,8 +70,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="@style/Value"
-            android:text="197823981283"/>
+            android:textAppearance="@style/Value" />
     </TableRow>
 
     <TableRow
@@ -127,8 +124,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="@style/Value"
-            android:text="1111.11"/>
+            android:textAppearance="@style/Value" />
 
         <TextView
             android:id="@+id/tvYearRange"
@@ -136,8 +132,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="@style/Value"
-            android:text="22222.22 - 33333.22"/>
+            android:textAppearance="@style/Value" />
 
         <TextView
             android:id="@+id/tvOther"
@@ -145,8 +140,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="@style/Value"
-            android:text="197823981283"/>
+            android:textAppearance="@style/Value" />
     </TableRow>
 
 </TableLayout>

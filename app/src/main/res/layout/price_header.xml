@@ -8,7 +8,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvPrice"
-            android:text="25,4444.00"
             android:maxLines="1"
             android:gravity="center"
             android:textSize="36sp"
@@ -27,7 +26,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:maxLines="1"
-                android:text="0.08"
                 android:textSize="14sp"
                 android:gravity="bottom"
                 android:background="@android:color/transparent"/>
@@ -39,7 +37,6 @@
                 android:layout_weight="1"
                 android:maxLines="1"
                 android:textSize="14sp"
-                android:text="0.8%"
                 android:gravity="top"
                 android:background="@android:color/transparent"/>
 
@@ -49,7 +46,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvExchange"
-        android:text="NYSE"
         android:maxLines="1"
         android:gravity="center"
         android:textSize="36sp"

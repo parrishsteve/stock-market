@@ -30,12 +30,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var rvSymbols: RecyclerView
     private lateinit var adapter: SymbolAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private var isInit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        this.title = getString(R.string.app_name)
 
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
@@ -102,11 +104,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         vm.errorMsg.observe(this, Observer<String> {
             Toast.makeText(application, it, Toast.LENGTH_LONG).show()
         })
+
+        vm.getSymbols()
     }
 
     override fun onStart() {
         super.onStart()
-        vm.getSymbols()
+        if (isInit) vm.refreshSymbols()
+        isInit = true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
