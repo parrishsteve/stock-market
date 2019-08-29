@@ -5,11 +5,10 @@ This app uses the RESTful API services at worldtradingdata.com. You can sign up 
 
 ONCE YOU HAVE A KEY YOU NEED TO SET IT IN THE app/gradle.properties file and rebuild.
 
-See Real-Time Data, swipe to refresh
 ![symbol screen](symbol-page.png)
 
-Search for symbols
+
 ![Search For Symbols](search.png)
 
-See a snapshot of day activity
+
 ![Company Details](graph.png)
